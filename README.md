@@ -1,29 +1,7 @@
 # Arknights-Headhunt-Calculator
 
-## Project setup
-```
-npm install
-```
+明日方舟干员寻访出货概率计算器。
+“成功出货概率”指至少抽取到目标 1 次的概率。
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+Visit https://vopaaz.github.io/Arknights-Headhunt-Calculator/
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
