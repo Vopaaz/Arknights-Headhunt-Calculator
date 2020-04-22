@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-jumbotron header="Arknights Headhunt Calculator" lead="明日方舟干员寻访概率期望计算器"></b-jumbotron>
+    <b-jumbotron header="Arknights Headhunt Calculator" lead="明日方舟干员寻访出货概率计算器"></b-jumbotron>
     <b-container fluid>
       <b-row>
         <b-col lg="4" offset-lg="2" md="8" offset-md="2" align-self="center" @change="onChange()">
