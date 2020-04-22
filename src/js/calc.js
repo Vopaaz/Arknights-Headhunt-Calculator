@@ -42,10 +42,17 @@ function calcSub(star, operatorNum, prevDraw, toDraw) {
 
     // If is 6, clear prev. If is 5, set prev=100 so that guarantee won't work
     const givenStarNextPrevDraw = star === 6 ?  0 : 100
-    
+
+    let accProbNonTargetStar
+    if (probStar === 1){
+      accProbNonTargetStar = 0
+    } else {
+      accProbNonTargetStar = (1 - probStar) * calcSub(star, operatorNum, prevDraw + 1, toDraw - 1)
+    }
+
     const res = probStar * givenStarProbTarget +
       probStar * (1 - givenStarProbTarget) * calcSub(star, operatorNum, givenStarNextPrevDraw, toDraw - 1) +
-      (1 - probStar) * calcSub(star, operatorNum, prevDraw + 1, toDraw - 1)
+      accProbNonTargetStar
     m.set(id, res)
     return res
   }
