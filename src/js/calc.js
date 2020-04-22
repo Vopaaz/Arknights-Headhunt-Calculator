@@ -36,13 +36,13 @@ function calcSub(star, operatorNum, prevDraw, toDraw) {
   } else if (m.has(id)) {
     return m.get(id)
   } else {
-    const probStar = probabilityTargetStar(star, operatorNum, prevDraw)
+    const probStar = probabilityTargetStar(star, prevDraw)
 
     const givenStarProbTarget = 0.5 / operatorNum
 
     // If is 6, clear prev. If is 5, set prev=100 so that guarantee won't work
-    const givenStarNextPrevDraw = star === 6 ? prevDraw = 0 : prevDraw = 100
-
+    const givenStarNextPrevDraw = star === 6 ?  0 : 100
+    
     const res = probStar * givenStarProbTarget +
       probStar * (1 - givenStarProbTarget) * calcSub(star, operatorNum, givenStarNextPrevDraw, toDraw - 1) +
       (1 - probStar) * calcSub(star, operatorNum, prevDraw + 1, toDraw - 1)
