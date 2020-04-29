@@ -3,7 +3,7 @@
     <b-form>
       <h5 class="section">抽取目标</h5>
 
-      <b-form-group id="star-group" label="是否限定" label-for="limited" label-cols="4" description="限定卡池 6 星出率为 70%, 标准寻访 6 星出率为 50%">
+      <b-form-group id="star-group" label="是否限定" label-for="limited" label-cols="4" description="限定卡池 up 6 星占全部 6 星的 70%, 标准寻访为 50%">
         <b-form-radio-group
           id="limited"
           v-model="limited"
