@@ -26,7 +26,6 @@ function totalDraw(gem, originium, drawCoupon, drawTenCoupon) {
 const m = new Map()
 
 function subArgs2Str(star, operatorNum, prevDraw, toDraw, limited) {
-  console.log(limited)
   return `${star.toFixed(0)}-${operatorNum.toFixed(0)}-${prevDraw.toFixed(0)}-${toDraw.toFixed(0)}-${limited.toString()}`
 }
 
