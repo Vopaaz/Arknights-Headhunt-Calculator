@@ -40,7 +40,8 @@ export default {
         d.drawCoupon,
         d.drawTenCoupon,
         d.sixPrevDraw,
-        d.thisPrevDraw
+        d.thisPrevDraw,
+        d.limited
       );
     }
   }

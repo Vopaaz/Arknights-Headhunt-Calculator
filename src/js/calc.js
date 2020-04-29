@@ -25,12 +25,13 @@ function totalDraw(gem, originium, drawCoupon, drawTenCoupon) {
 
 const m = new Map()
 
-function subArgs2Str(star, operatorNum, prevDraw, toDraw) {
-  return `${star.toFixed(0)}-${operatorNum.toFixed(0)}-${prevDraw.toFixed(0)}-${toDraw.toFixed(0)}`
+function subArgs2Str(star, operatorNum, prevDraw, toDraw, limited) {
+  console.log(limited)
+  return `${star.toFixed(0)}-${operatorNum.toFixed(0)}-${prevDraw.toFixed(0)}-${toDraw.toFixed(0)}-${limited.toString()}`
 }
 
-function calcSub(star, operatorNum, prevDraw, toDraw) {
-  const id = subArgs2Str(star, operatorNum, prevDraw, toDraw)
+function calcSub(star, operatorNum, prevDraw, toDraw, limited) {
+  const id = subArgs2Str(star, operatorNum, prevDraw, toDraw, limited)
   if (toDraw === 0) {
     return 0
   } else if (m.has(id)) {
@@ -38,20 +39,20 @@ function calcSub(star, operatorNum, prevDraw, toDraw) {
   } else {
     const probStar = probabilityTargetStar(star, prevDraw)
 
-    const givenStarProbTarget = 0.5 / operatorNum
+    const givenStarProbTarget = star === 6 && limited === true ? 0.7 / operatorNum : 0.5 / operatorNum
 
     // If is 6, clear prev. If is 5, set prev=100 so that guarantee won't work
-    const givenStarNextPrevDraw = star === 6 ?  0 : 100
+    const givenStarNextPrevDraw = star === 6 ? 0 : 100
 
     let accProbNonTargetStar
-    if (probStar === 1){
+    if (probStar === 1) {
       accProbNonTargetStar = 0
     } else {
-      accProbNonTargetStar = (1 - probStar) * calcSub(star, operatorNum, prevDraw + 1, toDraw - 1)
+      accProbNonTargetStar = (1 - probStar) * calcSub(star, operatorNum, prevDraw + 1, toDraw - 1, limited)
     }
 
     const res = probStar * givenStarProbTarget +
-      probStar * (1 - givenStarProbTarget) * calcSub(star, operatorNum, givenStarNextPrevDraw, toDraw - 1) +
+      probStar * (1 - givenStarProbTarget) * calcSub(star, operatorNum, givenStarNextPrevDraw, toDraw - 1, limited) +
       accProbNonTargetStar
     m.set(id, res)
     return res
@@ -66,7 +67,8 @@ export function calculateProbability(
   drawCoupon,
   drawTenCoupon,
   sixPrevDraw,
-  thisPrevDraw
+  thisPrevDraw,
+  limited
 ) {
 
   const toDraw = totalDraw(gem, originium, drawCoupon, drawTenCoupon)
@@ -78,7 +80,7 @@ export function calculateProbability(
   } else {
     return undefined
   }
-  return calcSub(star, operatorNum, prevDraw, toDraw)
+  return calcSub(star, operatorNum, prevDraw, toDraw, limited)
 }
 
 

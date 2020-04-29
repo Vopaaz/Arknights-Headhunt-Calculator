@@ -2,6 +2,19 @@
   <div>
     <b-form>
       <h5 class="section">抽取目标</h5>
+
+      <b-form-group id="star-group" label="是否限定" label-for="limited" label-cols="4" description="限定卡池 6 星出率为 70%, 标准寻访 6 星出率为 50%">
+        <b-form-radio-group
+          id="limited"
+          v-model="limited"
+          :options="limitedOptions"
+          required
+          buttons
+          button-variant="outline-secondary"
+          @input="onInput()"
+        ></b-form-radio-group>
+      </b-form-group>
+
       <b-form-group id="star-group" label="目标干员" label-for="star" label-cols="4">
         <b-form-radio-group
           id="star"
@@ -138,7 +151,7 @@
         label="本池已抽次数"
         label-for="this-prev-draw"
         label-cols="4"
-        description="【本次】寻访已经抽取次数，仅用于计算五星保底"
+        description="本次寻访已经抽取次数，仅用于计算五星保底"
         :state="thisPrevDraw>=0"
         invalid-feedback="已抽次数必须 >= 0"
       >
@@ -163,6 +176,11 @@
 export default {
   data() {
     return {
+      limited: false,
+      limitedOptions: [
+        { text: "是", value: true },
+        { text: "否", value: false }
+      ],
       star: 6,
       starOptions: [
         { text: "5 ⭐", value: 5 },
