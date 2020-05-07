@@ -1,3 +1,5 @@
+// import * as _ from "lodash"
+
 function probabilityTargetStar(star, prevDraw) {
   if (star === 5) {
     if (prevDraw === 9) {
@@ -31,10 +33,16 @@ function subArgs2Str(star, operatorNum, prevDraw, toDraw, limited) {
 
 function calcSub(star, operatorNum, prevDraw, toDraw, limited) {
   const id = subArgs2Str(star, operatorNum, prevDraw, toDraw, limited)
+
+  let res = {
+    target: Array(7).fill(0),
+    targetStar: Array(7).fill(0)
+  }
   if (toDraw === 0) {
-    return 0
+    res.target[0] = 1
+    res.targetStar[0] = 1
   } else if (m.has(id)) {
-    return m.get(id)
+    res = m.get(id)
   } else {
     const probStar = probabilityTargetStar(star, prevDraw)
 
@@ -43,19 +51,29 @@ function calcSub(star, operatorNum, prevDraw, toDraw, limited) {
     // If is 6, clear prev. If is 5, set prev=100 so that guarantee won't work
     const givenStarNextPrevDraw = star === 6 ? 0 : 100
 
-    let accProbNonTargetStar
-    if (probStar === 1) {
-      accProbNonTargetStar = 0
-    } else {
-      accProbNonTargetStar = (1 - probStar) * calcSub(star, operatorNum, prevDraw + 1, toDraw - 1, limited)
-    }
+    // Following probability given this draw is NOT target star
+    const pNotS = calcSub(star, operatorNum, prevDraw + 1, toDraw - 1, limited)
 
-    const res = probStar * givenStarProbTarget +
-      probStar * (1 - givenStarProbTarget) * calcSub(star, operatorNum, givenStarNextPrevDraw, toDraw - 1, limited) +
-      accProbNonTargetStar
-    m.set(id, res)
-    return res
+    // Following probability given this draw is target star
+    const pIsS = calcSub(star, operatorNum, givenStarNextPrevDraw, toDraw - 1, limited)
+
+    for (let index = 0; index < res.target.length; index++) {
+      if (index === 0) {
+        res.targetStar[index] = (1 - probStar) * pNotS.targetStar[index]
+        res.target[index] = (1 - probStar) * pNotS.target[index] + (probStar * (1 - givenStarProbTarget)) * pIsS.target[index]
+      } else if (index < res.target.length - 1) {
+        res.targetStar[index] = (1 - probStar) * pNotS.targetStar[index] + probStar * pIsS.targetStar[index - 1]
+        res.target[index] = (1 - probStar) * pNotS.target[index] + (probStar * (1 - givenStarProbTarget)) * pIsS.target[index]
+          + probStar * givenStarProbTarget * pIsS.target[index - 1]
+      } else {
+        res.targetStar[index] = (1 - probStar) * pNotS.targetStar[index] + probStar * (pIsS.targetStar[index - 1] + pIsS.targetStar[index])
+        res.target[index] = (1 - probStar) * pNotS.target[index] + (probStar * (1 - givenStarProbTarget)) * pIsS.target[index]
+          + probStar * givenStarProbTarget * (pIsS.target[index - 1] + pIsS.target[index])
+      }
+    }
   }
+  m.set(id, res)
+  return res
 }
 
 export function calculateProbability(

@@ -18,6 +18,7 @@
 import BaseInput from "../components/BaseInput.vue";
 import ResultCard from "../components/ResultCard.vue";
 import { calculateProbability } from "../js/calc";
+import * as _ from "lodash"
 
 export default {
   data: function() {
@@ -32,7 +33,7 @@ export default {
   methods: {
     onChange: function() {
       const d = this.$refs.baseInput;
-      this.baseProbability = calculateProbability(
+      const result = calculateProbability(
         d.star,
         d.operatorNum,
         d.gem,
@@ -43,6 +44,7 @@ export default {
         d.thisPrevDraw,
         d.limited
       );
+      this.baseProbability = _.sum(result.target) - result.target[0]
     }
   }
 };
