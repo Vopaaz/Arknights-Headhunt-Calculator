@@ -46,9 +46,6 @@ function calcSub(star, operatorNum, prevDraw, toDraw, limited) {
     res.target[0] = 1
     res.targetStar[0] = 1
   } else if (m.has(id)) {
-    if(id === "6-2-99-1-false"){
-      console.log("Has id")
-    }
     res = m.get(id)
   } else {
     const probStar = probabilityTargetStar(star, prevDraw)
@@ -58,21 +55,11 @@ function calcSub(star, operatorNum, prevDraw, toDraw, limited) {
     // If is 6, clear prev. If is 5, set prev=100 so that guarantee won't work
     const givenStarNextPrevDraw = star === 6 ? 0 : 100
 
-    if(id === "6-2-99-1-false"){
-      console.log("Constants", probStar, givenStarProbTarget, givenStarNextPrevDraw)
-    }
-
     // Following probability given this draw is NOT target star
     const pNotS = probStar === 1 ? emptyRes() : calcSub(star, operatorNum, prevDraw + 1, toDraw - 1, limited)
 
-    if(id === "6-2-99-1-false"){
-      console.log("pNotS", pNotS)
-    }
     // Following probability given this draw is target star
     const pIsS = calcSub(star, operatorNum, givenStarNextPrevDraw, toDraw - 1, limited)
-    if(id === "6-2-99-1-false"){
-      console.log("pIsS", pIsS)
-    }
 
     for (let index = 0; index < res.target.length; index++) {
       if (index === 0) {
@@ -90,10 +77,6 @@ function calcSub(star, operatorNum, prevDraw, toDraw, limited) {
     }
   }
   m.set(id, res)
-  // if (isNaN(res.target[0])) {
-  //   console.log(id)
-  //   console.log(res)
-  // }
   return res
 }
 
