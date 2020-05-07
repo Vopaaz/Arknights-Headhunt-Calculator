@@ -28,12 +28,12 @@ function getChartData(target, targetStar) {
     datasets: [
       {
         label: "目标干员",
-        backgroundColor: "#f87979",
+        backgroundColor: "#7CA7CF88",
         data: target
       },
       {
         label: "同星级干员",
-        backgroundColor: "#123456",
+        backgroundColor: "#CF7CA788",
         data: targetStar
       }
     ]
