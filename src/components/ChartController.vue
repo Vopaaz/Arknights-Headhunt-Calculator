@@ -57,12 +57,42 @@ export default {
         }
       ],
       options: {
+        tooltips: {
+          mode: "index",
+          intersect: false,
+          position: "nearest",
+          callbacks: {
+            label: function(tooltipItem, data) {
+              var label = data.datasets[tooltipItem.datasetIndex].label || "";
+
+              if (label) {
+                label += "：";
+              }
+              label += (tooltipItem.yLabel * 100).toFixed(4)
+              return label+" %";
+            }
+          }
+        },
         scales: {
           yAxes: [
             {
               ticks: {
                 min: 0,
                 max: 1
+              },
+              scaleLabel: {
+                display: true,
+                labelString: "概率",
+                fontSize: 16
+              }
+            }
+          ],
+          xAxes: [
+            {
+              scaleLabel: {
+                display: true,
+                labelString: "抽取次数",
+                fontSize: 16
               }
             }
           ]
