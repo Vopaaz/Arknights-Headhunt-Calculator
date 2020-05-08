@@ -8,8 +8,7 @@
         </b-col>
         <b-col lg="4" offset-lg="0" md="8" offset-md="2" align-self="center">
           <result-card message="成功出货概率" :probability="baseProbability" />
-          <line-chart :chart-data="chartData" :options="options"></line-chart>
-          <div v-katex="'\\frac{a_i}{1+x}'"></div>
+          <line-chart :target="targetProb" :targetStar="targetStarProb"></line-chart>
         </b-col>
       </b-row>
     </b-container>
@@ -19,45 +18,16 @@
 <script>
 import BaseInput from "../components/BaseInput.vue";
 import ResultCard from "../components/ResultCard.vue";
-import LineChart from "../components/Chart.vue";
+import LineChart from "../components/ChartController.vue";
 import { calculateProbability } from "../js/calc";
 import * as _ from "lodash";
-
-function getChartData(target, targetStar) {
-  return {
-    labels: ["0", "1", "2", "3", "4", "5", "6+"],
-    datasets: [
-      {
-        label: "目标干员",
-        backgroundColor: "#7CA7CF88",
-        data: target
-      },
-      {
-        label: "同星级干员",
-        backgroundColor: "#CF7CA788",
-        data: targetStar
-      }
-    ]
-  };
-}
 
 export default {
   data: function() {
     return {
       baseProbability: 0,
-      chartData: getChartData([1, 0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 0]),
-      options: {
-        scales: {
-          yAxes: [
-            {
-              ticks: {
-                min: 0,
-                max: 1
-              }
-            }
-          ]
-        }
-      }
+      targetProb: [1, 0, 0, 0, 0, 0, 0],
+      targetStarProb: [1, 0, 0, 0, 0, 0, 0],
     };
   },
   components: {
@@ -80,7 +50,8 @@ export default {
         d.limited
       );
       this.baseProbability = _.sum(result.target) - result.target[0];
-      this.chartData = getChartData(result.target, result.targetStar);
+      this.targetProb = result.target
+      this.targetStarProb = result.targetStar
     }
   }
 };
