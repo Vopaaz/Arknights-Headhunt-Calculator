@@ -1,5 +1,7 @@
 <template>
   <div>
+    <h5> 出货概率 </h5>
+
     <b-card :title="showProbability" class="result-card" title-tag="h1">
       <b-card-text>抽到目标干员 1 次及以上的概率</b-card-text>
     </b-card>

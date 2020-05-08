@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h5> 概率分布图 </h5>
     <line-chart :chart-data="chartData" :options="options"></line-chart>
 
     <b-form-group id="chart-type-group" label="图表类型" label-for="chart-type" label-cols="6">
