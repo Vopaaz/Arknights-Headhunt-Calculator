@@ -9,6 +9,7 @@
         <b-col lg="4" offset-lg="0" md="8" offset-md="2" align-self="center">
           <result-card message="成功出货概率" :probability="baseProbability" />
           <line-chart :chart-data="chartData" :options="options"></line-chart>
+          <div v-katex="'\\frac{a_i}{1+x}'"></div>
         </b-col>
       </b-row>
     </b-container>
