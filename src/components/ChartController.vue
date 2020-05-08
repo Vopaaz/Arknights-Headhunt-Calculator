@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h5> 概率分布图 </h5>
+    <h5>概率分布图</h5>
     <line-chart :chart-data="chartData" :options="options"></line-chart>
 
     <b-form-group id="chart-type-group" label="图表类型" label-for="chart-type" label-cols="6">
@@ -16,7 +16,7 @@
 
     <b-alert show dismissible>
       PMF: 恰好抽到对应次数的概率
-      <br />CDF: 抽到对应次数及以上的概率，即：
+      <br />CDF: 抽到对应次数及以上的概率，即
       <span v-katex="'\\text{CDF}(X \\geq x)'"></span>
     </b-alert>
   </div>
@@ -69,8 +69,8 @@ export default {
               if (label) {
                 label += "：";
               }
-              label += (tooltipItem.yLabel * 100).toFixed(4)
-              return label+" %";
+              label += (tooltipItem.yLabel * 100).toFixed(4);
+              return label + " %";
             }
           }
         },
