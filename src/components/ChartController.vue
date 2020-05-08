@@ -1,5 +1,24 @@
 <template>
-  <line-chart :chart-data="chartData" :options="options"></line-chart>
+  <div>
+    <line-chart :chart-data="chartData" :options="options"></line-chart>
+
+    <b-form-group id="chart-type-group" label="图表类型" label-for="chart-type" label-cols="6">
+      <b-form-radio-group
+        id="chart-type"
+        v-model="chartType"
+        :options="chartTypeOptions"
+        required
+        buttons
+        button-variant="outline-secondary"
+      ></b-form-radio-group>
+    </b-form-group>
+
+    <b-alert show dismissible>
+      PMF: 恰好抽到对应次数的概率
+      <br />CDF: 抽到对应次数及以上的概率，即：
+      <span v-katex="'\\text{CDF}(X \\geq x)'"></span>
+    </b-alert>
+  </div>
 </template>
 
 <script>
@@ -26,6 +45,17 @@ function getChartData(target, targetStar) {
 export default {
   data: function() {
     return {
+      chartType: "PMF",
+      chartTypeOptions: [
+        {
+          text: "PMF",
+          value: "PMF"
+        },
+        {
+          text: "CDF",
+          value: "CDF"
+        }
+      ],
       options: {
         scales: {
           yAxes: [
@@ -42,7 +72,22 @@ export default {
   },
   computed: {
     chartData: function() {
-      return getChartData(this.target, this.targetStar);
+      if (this.chartType === "PMF") {
+        return getChartData(this.target, this.targetStar);
+      } else {
+        const l = this.target.length;
+        let targetAcc = 0;
+        let targetStarAcc = 0;
+        let target = Array(l);
+        let targetStar = Array(l);
+        for (let index = l - 1; index >= 0; index--) {
+          targetAcc += this.target[index];
+          target[index] = targetAcc;
+          targetStarAcc += this.targetStar[index];
+          targetStar[index] = targetStarAcc;
+        }
+        return getChartData(target, targetStar);
+      }
     }
   },
   components: {
