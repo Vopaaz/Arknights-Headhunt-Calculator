@@ -17,7 +17,7 @@
     <b-alert show dismissible>
       PMF: 恰好抽到对应次数的概率
       <br />CDF: 抽到对应次数及以上的概率，即
-      <span v-katex="'\\text{CDF}(X \\geq x)'"></span>
+      <span v-katex="'\\text{Pr}(X \\geq x)'"></span>
     </b-alert>
   </div>
 </template>
