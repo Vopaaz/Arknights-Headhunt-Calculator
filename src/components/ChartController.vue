@@ -15,7 +15,7 @@
     </b-form-group>
 
     <b-alert show dismissible>
-      PMF: 恰好抽到对应次数的概率，即
+      PMF: 恰好抽取到对应次数的概率，即
       <span v-katex="'\\text{Pr}(X = x)'"></span>
       <br />CDF: 抽到对应次数及以上的概率，即
       <span v-katex="'\\text{Pr}(X \\geq x)'"></span>
@@ -93,7 +93,7 @@ export default {
             {
               scaleLabel: {
                 display: true,
-                labelString: "抽取次数",
+                labelString: "出货次数",
                 fontSize: 16
               }
             }
