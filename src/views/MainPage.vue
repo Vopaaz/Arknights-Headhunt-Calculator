@@ -49,7 +49,7 @@ export default {
         d.drawTenCoupon,
         d.sixPrevDraw,
         d.thisPrevDraw,
-        d.limited
+        d.poolType
       );
       this.baseProbability = _.sum(result.target) - result.target[0];
       this.targetProb = result.target;

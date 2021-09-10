@@ -3,17 +3,23 @@
     <b-form>
       <h5 class="section">抽取目标</h5>
 
-      <b-form-group id="star-group" label="是否限定" label-for="limited" label-cols="4" description="限定卡池 up 6 星占全部 6 星的 70%, 标准池为 50%">
+      <b-form-group id="star-group" label="卡池类型" label-for="pool-type" label-cols="4">
         <b-form-radio-group
-          id="limited"
-          v-model="limited"
-          :options="limitedOptions"
+          id="pool-type"
+          v-model="poolType"
+          :options="poolTypeOptions"
           required
           buttons
           button-variant="outline-secondary"
           @input="onInput()"
         ></b-form-radio-group>
       </b-form-group>
+
+      <b-alert show dismissible>
+        卡池类型说明： <br/>
+        限定卡池 up 6 星占全部 6 星的 70%, 标准池为 50% <br/>
+        定向寻访（联合行动）中只会出现 up 干员
+      </b-alert>
 
       <b-form-group id="star-group" label="目标干员" label-for="star" label-cols="4">
         <b-form-radio-group
@@ -32,7 +38,6 @@
         label="同星 up 干员数"
         label-for="operator-num"
         label-cols="4"
-        description="假设同星干员出率相等"
       >
         <b-form-radio-group
           id="operator-num"
@@ -176,10 +181,11 @@
 export default {
   data() {
     return {
-      limited: false,
-      limitedOptions: [
-        { text: "是", value: true },
-        { text: "否", value: false }
+      poolType: "standard",
+      poolTypeOptions: [
+        { text: "常驻", value: "standard" },
+        { text: "限定", value: "limited" },
+        { text: "定向", value: "joint" }
       ],
       star: 6,
       starOptions: [
@@ -191,7 +197,9 @@ export default {
         { text: "1", value: 1 },
         { text: "2", value: 2 },
         { text: "3", value: 3 },
-        { text: "4", value: 4 }
+        { text: "4", value: 4 },
+        { text: "5", value: 5 },
+        { text: "6", value: 6 }
       ],
       gem: 0,
       originium: 0,
