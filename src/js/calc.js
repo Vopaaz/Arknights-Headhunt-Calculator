@@ -27,19 +27,19 @@ function totalDraw(gem, originium, drawCoupon, drawTenCoupon) {
 
 const m = new Map()
 
-function subArgs2Str(star, operatorNum, prevDraw, toDraw, limited) {
-  return `${star.toFixed(0)}-${operatorNum.toFixed(0)}-${prevDraw.toFixed(0)}-${toDraw.toFixed(0)}-${limited.toString()}`
+function subArgs2Str(star, operatorNum, prevDraw, toDraw, poolType) {
+  return `${star.toFixed(0)}-${operatorNum.toFixed(0)}-${prevDraw.toFixed(0)}-${toDraw.toFixed(0)}-${poolType.toString()}`
 }
 
-function emptyRes(){
+function emptyRes() {
   return {
     target: Array(7).fill(0),
     targetStar: Array(7).fill(0)
   }
 }
 
-function calcSub(star, operatorNum, prevDraw, toDraw, limited) {
-  const id = subArgs2Str(star, operatorNum, prevDraw, toDraw, limited)
+function calcSub(star, operatorNum, prevDraw, toDraw, poolType) {
+  const id = subArgs2Str(star, operatorNum, prevDraw, toDraw, poolType)
 
   let res = emptyRes()
   if (toDraw === 0) {
@@ -50,16 +50,23 @@ function calcSub(star, operatorNum, prevDraw, toDraw, limited) {
   } else {
     const probStar = probabilityTargetStar(star, prevDraw)
 
-    const givenStarProbTarget = star === 6 && limited === true ? 0.7 / operatorNum : 0.5 / operatorNum
+    let givenStarProbTarget;
+    if (poolType === "standard") {
+      givenStarProbTarget = 0.5 / operatorNum
+    } else if (poolType === "limited") {
+      givenStarProbTarget = star === 6 ? 0.7 / operatorNum : 0.5 / operatorNum
+    } else { // poolType === "joint"
+      givenStarProbTarget = 1 / operatorNum
+    }
 
     // If is 6, clear prev. If is 5, set prev=100 so that guarantee won't work
     const givenStarNextPrevDraw = star === 6 ? 0 : 100
 
     // Following probability given this draw is NOT target star
-    const pNotS = probStar === 1 ? emptyRes() : calcSub(star, operatorNum, prevDraw + 1, toDraw - 1, limited)
+    const pNotS = probStar === 1 ? emptyRes() : calcSub(star, operatorNum, prevDraw + 1, toDraw - 1, poolType)
 
     // Following probability given this draw is target star
-    const pIsS = calcSub(star, operatorNum, givenStarNextPrevDraw, toDraw - 1, limited)
+    const pIsS = calcSub(star, operatorNum, givenStarNextPrevDraw, toDraw - 1, poolType)
 
     for (let index = 0; index < res.target.length; index++) {
       if (index === 0) {
